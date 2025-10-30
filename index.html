@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramin Mokamel App</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: auto;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at center, #000 0%, #020202 100%);
+      color: #00ff80;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #00ff80;
+      text-shadow: 0 0 10px #00ff80, 0 0 20px #00ff80, 0 0 40px #00ff80;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #b2ffcf;
+      margin: 0 10px;
+    }
+
+    img.logo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      box-shadow: 0 0 25px #00ff80;
+      margin-bottom: 20px;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #00ff80; }
+      50% { box-shadow: 0 0 40px #00ff80; }
+      100% { box-shadow: 0 0 10px #00ff80; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 0;
+    }
+
+    .content {
+      z-index: 1;
+      position: relative;
+    }
+
+    .btn {
+      margin-top: 25px;
+      padding: 10px 20px;
+      border: 2px solid #00ff80;
+      color: #00ff80;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #00ff80;
+      color: #000;
+      box-shadow: 0 0 20px #00ff80;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="content">
+    <img src="Picsart_25-10-27_03-21-20-910.jpg" alt="Logo" class="logo">
+    <h1>👑 Ramin Mokamel App فعال است ⚡</h1>
+    <p>اپلیکیشن مکمل‌یابی حرفه‌ای با ضمانت اصالت و پشتیبانی مستقیم 📱</p>
+    <button class="btn" onclick="alert('💚 برنامه شما آماده نصب است! از Add to Home Screen استفاده کنید.')">
+      افزودن به صفحه اصلی
+    </button>
+  </div>
+
+  <script>
+    // پس‌زمینه سه‌بعدی نئون
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // توپ‌های سبز نئونی
+    const createSphere = () => {
+      const geometry = new THREE.SphereGeometry(0.3, 16, 16);
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff80 });
+      const sphere = new THREE.Mesh(geometry, material);
+      sphere.position.set(
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 10
+      );
+      scene.add(sphere);
+      return sphere;
+    };
+
+    const spheres = Array.from({ length: 50 }, createSphere);
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      spheres.forEach(s => {
+        s.rotation.x += 0.01;
+        s.rotation.y += 0.01;
+      });
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ثبت Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('✅ Service Worker Registered'))
+      .catch(err => console.log('❌ SW registration failed:', err));
+    }
+  </script>
+</body>
+</html>
