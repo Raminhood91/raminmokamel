@@ -1,0 +1,17 @@
+   manifest.json
+{
+  "name": "Ramin Mokamel App",
+  "short_name": "RaminMokamel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff80",
+  "description": "اپلیکیشن مکمل‌یابی حرفه‌ای با تم مشکی–سبز نئونی، دارای ضمانت اصالت و لینک دانلود مستقیم از گوگل‌پلی.",
+  "icons": [
+    {
+      "src": "Picsart_25-10-27_03-21-20-910.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    }
+  ]
+}
